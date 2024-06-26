@@ -5,6 +5,7 @@
 */
 
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
 const port = 3000;
 require("dotenv").config();
 const mongoose = require("mongoose");
@@ -45,6 +46,10 @@ app.get("/", requireToken, (req, res) => {
   console.log(req.user);
   res.send(req.user);
 });
+
+// Swagger UI setup
+const swaggerDocument = require("./swagger-output.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
