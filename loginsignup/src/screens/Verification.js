@@ -84,15 +84,15 @@ const Verification = ({ navigation, route }) => {
             style={styles.h1}
             onPress={() => navigation.navigate("welcome")}
           >
-            Used2, Inc.
+            Join the Family
           </Text>
-          <Text style={styles.small1}>Buying and selling online</Text>
+          <Text style={styles.small1}>Blums to do</Text>
         </View>
         <View style={styles.s2}>
           <Text style={head1}>Verification</Text>
           <Text style={bwmessage}>
             A 4-digit Verification Code has been generated for you
-          </Text>
+          </Text> 
           {actualCode && (
             <Text style={bwmessage}>
               Your Verification Code is: {actualCode}

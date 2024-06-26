@@ -14,6 +14,12 @@ const Homepage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={backgroundImage} style={styles.backgroundImage} />
+      <Text
+        style={[button1, styles.logoutButton]}
+        onPress={() => navigation.navigate("login")}
+      >
+        Logout
+      </Text>
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logo} />
       </View>
@@ -45,12 +51,6 @@ const Homepage = ({ navigation }) => {
           />
         </View>
 
-        <Text
-          style={[button1, styles.logoutButton]}
-          onPress={() => navigation.navigate("login")}
-        >
-          Logout
-        </Text>
         <View style={styles.buttonContainer}>
           <Text
             style={[button1, styles.button]}
@@ -94,20 +94,21 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoContainer: {
-    alignItems: "center", 
+    alignItems: "center",
     marginTop: 20,
     marginBottom: 20,
   },
   logo: {
-    width: 300, 
-    height: 150, 
+    width: 300,
+    height: 150,
     resizeMode: "contain",
-    borderRadius: 20, 
+    borderRadius: 40,
+    right: 80,
   },
   imageContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around", 
+    justifyContent: "space-around",
     marginBottom: 20,
   },
   image: {
@@ -115,23 +116,30 @@ const styles = StyleSheet.create({
     height: 150,
     marginVertical: 10,
     resizeMode: "contain",
-    borderRadius: 20, 
+    borderRadius: 20,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    flexWrap: "wrap", 
+    flexWrap: "wrap",
   },
   button: {
-    width: "30%", 
+    width: "30%",
     marginBottom: 10,
     textAlign: "center",
   },
   logoutButton: {
     position: "absolute",
-    top: 10,
+    top: 100,
     right: 10,
-    zIndex: 1, 
+    zIndex: 1,
+   
+    padding: 10,
+    borderRadius: 20,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
 });

@@ -19,6 +19,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import logo from "../../assets/calendar.png";
 import pattern from "../../assets/pattern.png";
 
@@ -34,6 +35,7 @@ const CalendarScreen = () => {
   const [newEventTitle, setNewEventTitle] = useState("");
   const [currentEvents, setCurrentEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [expandedEventId, setExpandedEventId] = useState(null); // State to track the expanded event
   const [error, setError] = useState(null);
 
   // Fetch events when the component mounts
@@ -168,6 +170,11 @@ const CalendarScreen = () => {
     }
   };
 
+  // Function to handle expanding or collapsing event details
+  const toggleExpandEvent = (eventId) => {
+    setExpandedEventId(expandedEventId === eventId ? null : eventId);
+  };
+
   return (
     <View style={styles.container}>
       <Image source={pattern} style={styles.patternbg} />
@@ -245,21 +252,30 @@ const CalendarScreen = () => {
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
               <View style={styles.eventItem}>
-                <Text>{item.title}</Text>
-                <View style={styles.buttonGroup}>
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => onEventPress(item)}
-                  >
-                    <Text style={styles.buttonText}>Edit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => deleteEvent(item._id)}
-                  >
-                    <Text style={styles.buttonText}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  style={styles.eventTitle}
+                  onPress={() => toggleExpandEvent(item._id)}
+                >
+                  <Text>{item.title}</Text>
+                </TouchableOpacity>
+                {expandedEventId === item._id && (
+                  <View style={styles.buttonGroup}>
+                    <TouchableOpacity
+                      style={styles.actionButton}
+                      onPress={() => onEventPress(item)}
+                    >
+                      <Icon name="edit" size={20} color="#FF69B4" />
+                      <Text style={styles.buttonText}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.actionButton}
+                      onPress={() => deleteEvent(item._id)}
+                    >
+                      <Icon name="delete" size={20} color="#FF69B4" />
+                      <Text style={styles.buttonText}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             )}
           />
@@ -323,40 +339,54 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    width: "100%",
+    paddingHorizontal: 10,
+  },
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    marginTop: 10,
   },
   buttonClose: {
-    backgroundColor: "#FF69B4",
-    marginTop: 16,
+    backgroundColor: "#2196F3",
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    fontSize: 24,
-  },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-    width: "100%",
-  },
   eventItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 10,
+  },
+  eventTitle: {
+    fontSize: 18,
+  },
+  buttonGroup: {
+    marginTop: 10,
+  },
+  actionButton: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 5,
+  },
+  buttonText: {
+    marginLeft: 5,
+    color: "#FF69B4",
   },
 });
 
